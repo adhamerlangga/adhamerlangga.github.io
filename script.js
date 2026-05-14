@@ -4,6 +4,25 @@ const menuToggle = document.querySelector("[data-menu-toggle]");
 const progress = document.querySelector(".scroll-progress");
 const backToTop = document.querySelector("[data-back-to-top]");
 const sections = document.querySelectorAll("main section[id]");
+const yearsSinceNodes = document.querySelectorAll("[data-years-since]");
+
+yearsSinceNodes.forEach((node) => {
+  const startDate = new Date(node.dataset.yearsSince);
+  const today = new Date();
+
+  if (Number.isNaN(startDate.getTime())) return;
+
+  let years = today.getFullYear() - startDate.getFullYear();
+  const hasNotReachedAnniversary =
+    today.getMonth() < startDate.getMonth()
+    || (today.getMonth() === startDate.getMonth() && today.getDate() < startDate.getDate());
+
+  if (hasNotReachedAnniversary) {
+    years -= 1;
+  }
+
+  node.textContent = `${Math.max(0, years)}+`;
+});
 
 const setActiveNav = () => {
   const offset = window.scrollY + 120;
